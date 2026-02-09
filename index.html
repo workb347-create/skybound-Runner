@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="https://sdk.crazygames.com/crazygames-sdk-v3.js"></script>
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 <title>Skybound Runner - 2D Platformer</title>
-<script src="https://sdk.crazygames.com/crazygames-sdk-v3.js"></script>
 <style>
   :root{
     --bg1:#0c1224;
@@ -291,14 +291,6 @@
 
 <script>
 (()=>{
-  // --- CRAZY GAMES SDK INITIALIZATION ---
-  let crazySDK = null;
-  window.addEventListener('load', () => {
-    if (window.CrazyGames && window.CrazyGames.SDK) {
-      crazySDK = window.CrazyGames.SDK;
-    }
-  });
-
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
 
@@ -367,11 +359,116 @@
     particles: localStorage.getItem('skybound_particles') !== 'false'
   };
 
-  // Internationalization (Keep your dict)
+  // Internationalization
   const translations = {
-    en: { gameTitle: "Skybound Runner", gameSubtitle: "A fast, punchy 2D platformer. Collect coins, avoid spikes, reach the goal!", controlMove: "Move", controlJump: "Jump", controlRestart: "Restart", controlPause: "Pause", doubleJump: "double jump enabled", startButton: "Tap or Press Space to Start", settingsButton: "Settings", mobileHint: "Works on mobile. Use on-screen controls.", paused: "Game Paused", pausedSubtitle: "Take a break, adjust settings, or continue your run", resumeButton: "Resume Game", quitButton: "Quit to Menu", settingsTitle: "Settings", languageLabel: "Language", mobileControlsLabel: "Mobile Controls", mobileControlsToggle: "Show on-screen controls", soundLabel: "Sound", soundToggle: "Enable sound effects", particlesLabel: "Particles", particlesToggle: "Show particle effects", backButton: "Back", saveButton: "Save & Apply", winTitle: "You Win! 🏁", winSubtitle: "Nice run.", playAgainButton: "Play Again", menuButton: "Main Menu", gameOverTitle: "Game Over 💥", gameOverSubtitle: "You fell or hit something sharp!", tryAgainButton: "Try Again", langEnglish: "English", langFrench: "Français", langArabic: "العربية" },
-    fr: { gameTitle: "Skybound Runner", gameSubtitle: "Un platformer 2D rapide et dynamique. Collectionnez les pièces, évitez les pics, atteignez le but !", controlMove: "Déplacement", controlJump: "Sauter", controlRestart: "Recommencer", controlPause: "Pause", doubleJump: "double saut activé", startButton: "Cliquez ou appuyez sur Espace pour démarrer", settingsButton: "Paramètres", mobileHint: "Fonctionne sur mobile. Utilisez les contrôles à l'écran.", paused: "Jeu en Pause", pausedSubtitle: "Faites une pause, ajustez les paramètres ou continuez votre course", resumeButton: "Reprendre le Jeu", quitButton: "Quitter vers le Menu", settingsTitle: "Paramètres", languageLabel: "Langue", mobileControlsLabel: "Contrôles Mobile", mobileControlsToggle: "Afficher les contrôles à l'écran", soundLabel: "Son", soundToggle: "Activer les effets sonores", particlesLabel: "Particules", particlesToggle: "Afficher les effets de particules", backButton: "Retour", saveButton: "Sauvegarder & Appliquer", winTitle: "Vous avez gagné ! 🏁", winSubtitle: "Belle course.", playAgainButton: "Rejouer", menuButton: "Menu Principal", gameOverTitle: "Game Over 💥", gameOverSubtitle: "Vous êtes tombé ou avez touché quelque chose de pointu !", tryAgainButton: "Réessayer", langEnglish: "Anglais", langFrench: "Français", langArabic: "Arabe" },
-    ar: { gameTitle: "سكاي باوند رانر", gameSubtitle: "لعبة منصات ثنائية الأبعاد سريعة ومثيرة. اجمع العملات، تجنب المسامير، وصل إلى الهدف!", controlMove: "التحريك", controlJump: "القفز", controlRestart: "إعادة", controlPause: "إيقاف مؤقت", doubleJump: "القفز المزدوج مفعل", startButton: "اضغط أو المس لبدء اللعبة", settingsButton: "الإعدادات", mobileHint: "تعمل على الهاتف. استخدم عناصر التحكم على الشاشة.", paused: "اللعبة متوقفة", pausedSubtitle: "خذ استراحة، اضبط الإعدادات، أو تابع رحلتك", resumeButton: "استئناف اللعبة", quitButton: "الخروج إلى القائمة", settingsTitle: "الإعدادات", languageLabel: "اللغة", mobileControlsLabel: "تحكم الهاتف", mobileControlsToggle: "إظهار عناصر التحكم على الشاشة", soundLabel: "الصوت", soundToggle: "تفعيل المؤثرات الصوتية", particlesLabel: "الجسيمات", particlesToggle: "إظهار تأثيرات الجسيمات", backButton: "رجوع", saveButton: "حفظ وتطبيق", winTitle: "لقد فزت! 🏁", winSubtitle: "أداء رائع.", playAgainButton: "العب مرة أخرى", menuButton: "القائمة الرئيسية", gameOverTitle: "انتهت اللعبة 💥", gameOverSubtitle: "لقد سقطت أو اصطدمت بشيء حاد!", tryAgainButton: "حاول مرة أخرى", langEnglish: "الإنجليزية", langFrench: "الفرنسية", langArabic: "العربية" }
+    en: {
+      gameTitle: "Skybound Runner",
+      gameSubtitle: "A fast, punchy 2D platformer. Collect coins, avoid spikes, reach the goal!",
+      controlMove: "Move",
+      controlJump: "Jump",
+      controlRestart: "Restart",
+      controlPause: "Pause",
+      doubleJump: "double jump enabled",
+      startButton: "Tap or Press Space to Start",
+      settingsButton: "Settings",
+      mobileHint: "Works on mobile. Use on-screen controls.",
+      paused: "Game Paused",
+      pausedSubtitle: "Take a break, adjust settings, or continue your run",
+      resumeButton: "Resume Game",
+      quitButton: "Quit to Menu",
+      settingsTitle: "Settings",
+      languageLabel: "Language",
+      mobileControlsLabel: "Mobile Controls",
+      mobileControlsToggle: "Show on-screen controls",
+      soundLabel: "Sound",
+      soundToggle: "Enable sound effects",
+      particlesLabel: "Particles",
+      particlesToggle: "Show particle effects",
+      backButton: "Back",
+      saveButton: "Save & Apply",
+      winTitle: "You Win! 🏁",
+      winSubtitle: "Nice run.",
+      playAgainButton: "Play Again",
+      menuButton: "Main Menu",
+      gameOverTitle: "Game Over 💥",
+      gameOverSubtitle: "You fell or hit something sharp!",
+      tryAgainButton: "Try Again",
+      langEnglish: "English",
+      langFrench: "Français",
+      langArabic: "العربية"
+    },
+    fr: {
+      gameTitle: "Skybound Runner",
+      gameSubtitle: "Un platformer 2D rapide et dynamique. Collectionnez les pièces, évitez les pics, atteignez le but !",
+      controlMove: "Déplacement",
+      controlJump: "Sauter",
+      controlRestart: "Recommencer",
+      controlPause: "Pause",
+      doubleJump: "double saut activé",
+      startButton: "Cliquez ou appuyez sur Espace pour démarrer",
+      settingsButton: "Paramètres",
+      mobileHint: "Fonctionne sur mobile. Utilisez les contrôles à l'écran.",
+      paused: "Jeu en Pause",
+      pausedSubtitle: "Faites une pause, ajustez les paramètres ou continuez votre course",
+      resumeButton: "Reprendre le Jeu",
+      quitButton: "Quitter vers le Menu",
+      settingsTitle: "Paramètres",
+      languageLabel: "Langue",
+      mobileControlsLabel: "Contrôles Mobile",
+      mobileControlsToggle: "Afficher les contrôles à l'écran",
+      soundLabel: "Son",
+      soundToggle: "Activer les effets sonores",
+      particlesLabel: "Particules",
+      particlesToggle: "Afficher les effets de particules",
+      backButton: "Retour",
+      saveButton: "Sauvegarder & Appliquer",
+      winTitle: "Vous avez gagné ! 🏁",
+      winSubtitle: "Belle course.",
+      playAgainButton: "Rejouer",
+      menuButton: "Menu Principal",
+      gameOverTitle: "Game Over 💥",
+      gameOverSubtitle: "Vous êtes tombé ou avez touché quelque chose de pointu !",
+      tryAgainButton: "Réessayer",
+      langEnglish: "Anglais",
+      langFrench: "Français",
+      langArabic: "Arabe"
+    },
+    ar: {
+      gameTitle: "سكاي باوند رانر",
+      gameSubtitle: "لعبة منصات ثنائية الأبعاد سريعة ومثيرة. اجمع العملات، تجنب المسامير، وصل إلى الهدف!",
+      controlMove: "التحريك",
+      controlJump: "القفز",
+      controlRestart: "إعادة",
+      controlPause: "إيقاف مؤقت",
+      doubleJump: "القفز المزدوج مفعل",
+      startButton: "اضغط أو المس لبدء اللعبة",
+      settingsButton: "الإعدادات",
+      mobileHint: "تعمل على الهاتف. استخدم عناصر التحكم على الشاشة.",
+      paused: "اللعبة متوقفة",
+      pausedSubtitle: "خذ استراحة، اضبط الإعدادات، أو تابع رحلتك",
+      resumeButton: "استئناف اللعبة",
+      quitButton: "الخروج إلى القائمة",
+      settingsTitle: "الإعدادات",
+      languageLabel: "اللغة",
+      mobileControlsLabel: "تحكم الهاتف",
+      mobileControlsToggle: "إظهار عناصر التحكم على الشاشة",
+      soundLabel: "الصوت",
+      soundToggle: "تفعيل المؤثرات الصوتية",
+      particlesLabel: "الجسيمات",
+      particlesToggle: "إظهار تأثيرات الجسيمات",
+      backButton: "رجوع",
+      saveButton: "حفظ وتطبيق",
+      winTitle: "لقد فزت! 🏁",
+      winSubtitle: "أداء رائع.",
+      playAgainButton: "العب مرة أخرى",
+      menuButton: "القائمة الرئيسية",
+      gameOverTitle: "انتهت اللعبة 💥",
+      gameOverSubtitle: "لقد سقطت أو اصطدمت بشيء حاد!",
+      tryAgainButton: "حاول مرة أخرى",
+      langEnglish: "الإنجليزية",
+      langFrench: "الفرنسية",
+      langArabic: "العربية"
+    }
   };
 
   function updateLanguage(lang) {
@@ -379,30 +476,41 @@
     elements.forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (translations[lang] && translations[lang][key]) {
-        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.value = translations[lang][key];
-        else el.textContent = translations[lang][key];
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.value = translations[lang][key];
+        } else if (el.tagName === 'OPTION') {
+          el.textContent = translations[lang][key];
+        } else {
+          el.textContent = translations[lang][key];
+        }
       }
     });
   }
 
+  // Initialize settings from storage
   function loadSettings() {
     languageSelect.value = gameSettings.language;
     mobileControlsToggle.querySelector('.checkbox-custom').classList.toggle('checked', gameSettings.mobileControls);
     soundToggle.querySelector('.checkbox-custom').classList.toggle('checked', gameSettings.sound);
     particlesToggle.querySelector('.checkbox-custom').classList.toggle('checked', gameSettings.particles);
     updateLanguage(gameSettings.language);
+    
+    // Apply mobile controls setting
     document.getElementById('touchControls').style.display = gameSettings.mobileControls ? 'grid' : 'none';
   }
 
+  // Save settings to localStorage
   function saveSettings() {
     gameSettings.language = languageSelect.value;
     gameSettings.mobileControls = mobileControlsToggle.querySelector('.checkbox-custom').classList.contains('checked');
     gameSettings.sound = soundToggle.querySelector('.checkbox-custom').classList.contains('checked');
     gameSettings.particles = particlesToggle.querySelector('.checkbox-custom').classList.contains('checked');
+    
     localStorage.setItem('skybound_lang', gameSettings.language);
     localStorage.setItem('skybound_mobile', gameSettings.mobileControls);
     localStorage.setItem('skybound_sound', gameSettings.sound);
     localStorage.setItem('skybound_particles', gameSettings.particles);
+    
     updateLanguage(gameSettings.language);
     document.getElementById('touchControls').style.display = gameSettings.mobileControls ? 'grid' : 'none';
     muted = !gameSettings.sound;
@@ -410,11 +518,23 @@
     showParticles = gameSettings.particles;
   }
 
-  mobileControlsToggle.addEventListener('click', () => mobileControlsToggle.querySelector('.checkbox-custom').classList.toggle('checked'));
-  soundToggle.addEventListener('click', () => soundToggle.querySelector('.checkbox-custom').classList.toggle('checked'));
-  particlesToggle.addEventListener('click', () => particlesToggle.querySelector('.checkbox-custom').classList.toggle('checked'));
+  // Toggle checkboxes
+  mobileControlsToggle.addEventListener('click', () => {
+    const checkbox = mobileControlsToggle.querySelector('.checkbox-custom');
+    checkbox.classList.toggle('checked');
+  });
 
-  // Audio System
+  soundToggle.addEventListener('click', () => {
+    const checkbox = soundToggle.querySelector('.checkbox-custom');
+    checkbox.classList.toggle('checked');
+  });
+
+  particlesToggle.addEventListener('click', () => {
+    const checkbox = particlesToggle.querySelector('.checkbox-custom');
+    checkbox.classList.toggle('checked');
+  });
+
+  // Audio
   let audioReady = false;
   let muted = false;
   let audio;
@@ -431,218 +551,958 @@
     }catch(e){}
   }
   function sfx(type){
-    if(muted || !audioReady) return;
+    if(muted) return;
+    if(!audioReady) return;
     const now = audio.currentTime;
     const master = audio.createGain();
     master.connect(audio.destination);
     master.gain.setValueAtTime(0.18, now);
     master.gain.exponentialRampToValueAtTime(0.001, now + 1.0);
+
     function tone(freq, dur, t=now, type='sine', vol=1){
-      const o = audio.createOscillator(); const g = audio.createGain();
-      o.type = type; o.frequency.setValueAtTime(freq, t);
-      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.5*vol, t + 0.01);
+      const o = audio.createOscillator();
+      const g = audio.createGain();
+      o.type = type;
+      o.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.5*vol, t + 0.01);
       g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-      o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.02);
+      o.connect(g); g.connect(master);
+      o.start(t); o.stop(t + dur + 0.02);
     }
-    if(type==='jump'){ tone(280,0.06,now,'square',0.8); tone(380,0.08,now+0.02,'triangle',0.6); }
-    else if(type==='coin'){ tone(880,0.07,now,'square',0.9); tone(1320,0.07,now+0.02,'triangle',0.6); }
-    else if(type==='death'){ tone(220,0.12,now,'sawtooth',0.7); tone(120,0.2,now+0.08,'square',0.5); }
-    else if(type==='win'){ tone(523.25,0.1,now,'triangle',0.7); tone(659.25,0.1,now+0.08,'triangle',0.7); tone(783.99,0.2,now+0.16,'triangle',0.7); }
-    else if(type==='land'){ tone(160,0.05,now,'sine',0.4); }
+    if(type==='jump'){
+      tone(280,0.06,now,'square',0.8);
+      tone(380,0.08,now+0.02,'triangle',0.6);
+    }else if(type==='coin'){
+      tone(880,0.07,now,'square',0.9);
+      tone(1320,0.07,now+0.02,'triangle',0.6);
+    }else if(type==='death'){
+      tone(220,0.12,now,'sawtooth',0.7);
+      tone(120,0.2,now+0.08,'square',0.5);
+    }else if(type==='win'){
+      tone(523.25,0.1,now,'triangle',0.7);
+      tone(659.25,0.1,now+0.08,'triangle',0.7);
+      tone(783.99,0.2,now+0.16,'triangle',0.7);
+    }else if(type==='land'){
+      tone(160,0.05,now,'sine',0.4);
+    }
   }
 
-  // Input Handling
-  const input = { left:false, right:false, jump:false, jumpPressed:false, jumpBuffer:0, pointers:new Map() };
-  const kmap = { left:['ArrowLeft','a','A'], right:['ArrowRight','d','D'], jump:['ArrowUp','w','W',' ','Spacebar'] };
+  // Input
+  const input = {
+    left:false, right:false, jump:false,
+    jumpPressed:false, // edge
+    jumpBuffer:0,
+    pointers:new Map(),
+  };
+  const kmap = {
+    left:['ArrowLeft','a','A'],
+    right:['ArrowRight','d','D'],
+    jump:['ArrowUp','w','W',' ','Spacebar'] // Spacebar for older browsers
+  };
   function setKey(e, down){
     const key = e.key;
     if(kmap.left.includes(key)) input.left = down;
     if(kmap.right.includes(key)) input.right = down;
-    if(kmap.jump.includes(key)){ if(down){ if(!input.jump) input.jumpPressed = true; input.jump = true; } else input.jump = false; }
+    if(kmap.jump.includes(key)){
+      if(down){
+        if(!input.jump) input.jumpPressed = true;
+        input.jump = true;
+      }else{
+        input.jump = false;
+      }
+    }
     if(key==='r' || key==='R'){ if(down) restart(); }
     if(key==='m' || key==='M'){ if(down) toggleMute(); }
-    if((key==='p' || key==='P' || key==='Escape' || key==='Esc') && down) togglePause();
-    if(state==='playing') e.preventDefault();
+    if((key==='p' || key==='P' || key==='Escape' || key==='Esc') && down){
+      togglePause();
+    }
+    e.preventDefault();
   }
-  window.addEventListener('keydown', e=>{ if(state!=='menu') resumeAudio(); setKey(e,true); if(state==='menu' && kmap.jump.includes(e.key)) startGame(); });
+  window.addEventListener('keydown', e=>{ 
+    if(state!=='menu') resumeAudio(); 
+    setKey(e,true); 
+    if(state==='menu' && kmap.jump.includes(e.key)) startGame(); 
+  });
   window.addEventListener('keyup', e=>setKey(e,false));
 
   function bindButton(el, on, off){
     const start = (e)=>{ e.preventDefault(); e.stopPropagation(); on(); el.setAttribute('data-active','1'); };
     const end = (e)=>{ e.preventDefault(); e.stopPropagation(); off(); el.removeAttribute('data-active'); };
-    el.addEventListener('pointerdown', start); window.addEventListener('pointerup', end); window.addEventListener('pointercancel', end); el.addEventListener('contextmenu', e=>e.preventDefault());
+
+    el.addEventListener('pointerdown', start);
+    window.addEventListener('pointerup', end);
+    window.addEventListener('pointercancel', end);
+    el.addEventListener('contextmenu', e=>e.preventDefault());
   }
   bindButton(btnLeft, ()=>{ input.left = true; }, ()=>{ input.left = false; });
   bindButton(btnRight, ()=>{ input.right = true; }, ()=>{ input.right = false; });
-  bindButton(btnJump, ()=>{ if(!input.jump) input.jumpPressed = true; input.jump = true; }, ()=>{ input.jump = false; });
+  bindButton(btnJump, ()=>{
+    if(!input.jump) input.jumpPressed = true;
+    input.jump = true;
+  }, ()=>{ input.jump = false; });
 
-  // SDK Helper: Show Midroll Ad
-  let adCooldown = false;
-  function requestAd() {
-    if (crazySDK && !adCooldown) {
-      crazySDK.ad.requestAd('midroll', {
-        adStarted: () => { state = 'paused'; },
-        adFinished: () => { state = 'playing'; adCooldown = true; setTimeout(()=>adCooldown=false, 60000); },
-        adError: () => { state = 'playing'; }
-      });
-    }
-  }
-
-  // UI Listeners
+  // UI Event Listeners
   startBtn.addEventListener('click', ()=>{ resumeAudio(); startGame(); });
-  settingsBtn.addEventListener('click', showSettings);
-  settingsBtn2.addEventListener('click', showSettings);
-  pauseBtn.addEventListener('click', togglePause);
-  resumeBtn.addEventListener('click', togglePause);
-  quitBtn.addEventListener('click', quitToMenu);
-  backBtn.addEventListener('click', hideSettings);
-  saveBtn.addEventListener('click', ()=>{ saveSettings(); hideSettings(); if(state === 'paused') { hideAllOverlays(); state = 'playing'; } });
-  againBtn.addEventListener('click', startGame);
-  tryBtn.addEventListener('click', startGame);
-  menuBtn.addEventListener('click', showMenu);
-  menuBtn2.addEventListener('click', showMenu);
+  settingsBtn.addEventListener('click', ()=>{ showSettings(); });
+  settingsBtn2.addEventListener('click', ()=>{ showSettings(); });
+  pauseBtn.addEventListener('click', ()=>{ togglePause(); });
+  resumeBtn.addEventListener('click', ()=>{ togglePause(); });
+  quitBtn.addEventListener('click', ()=>{ quitToMenu(); });
+  backBtn.addEventListener('click', ()=>{ hideSettings(); });
+  saveBtn.addEventListener('click', ()=>{ 
+    saveSettings(); 
+    hideSettings(); 
+    if(state === 'paused') {
+      hideAllOverlays();
+      state = 'playing';
+    }
+  });
+  againBtn.addEventListener('click', ()=>{ startGame(); });
+  tryBtn.addEventListener('click', ()=>{ startGame(); });
+  menuBtn.addEventListener('click', ()=>{ showMenu(); });
+  menuBtn2.addEventListener('click', ()=>{ showMenu(); });
   muteBtn.addEventListener('click', toggleMute);
   restartBtn.addEventListener('click', ()=>restart());
 
-  function toggleMute(){ muted = !muted; muteBtn.textContent = muted ? '🔈' : '🔊'; }
+  function toggleMute(){
+    muted = !muted;
+    muteBtn.textContent = muted ? '🔈' : '🔊';
+  }
+
   function togglePause() {
     if(state === 'playing') {
-      state = 'paused'; showOverlay(pauseOverlay);
-      if(crazySDK) crazySDK.game.gameplayStop();
+      state = 'paused';
+      showOverlay(pauseOverlay);
     } else if(state === 'paused') {
-      state = 'playing'; hideAllOverlays();
-      if(crazySDK) crazySDK.game.gameplayStart();
+      state = 'playing';
+      hideAllOverlays();
     }
   }
-  function showSettings() { hideAllOverlays(); settingsOverlay.classList.remove('hidden'); loadSettings(); }
-  function hideSettings() { settingsOverlay.classList.add('hidden'); if(state === 'paused') pauseOverlay.classList.remove('hidden'); }
-  function quitToMenu() { state = 'menu'; hideAllOverlays(); startOverlay.classList.remove('hidden'); if(crazySDK) crazySDK.game.gameplayStop(); }
-  function showMenu() { state = 'menu'; hideAllOverlays(); startOverlay.classList.remove('hidden'); if(crazySDK) crazySDK.game.gameplayStop(); }
 
-  // Game Physics Constants
-  const GRAVITY = 2000; const MOVE_ACCEL_GROUND = 2600; const MOVE_ACCEL_AIR = 1800; const MAX_RUN = 500; const FRICTION = 2300; const JUMP_VEL = 960; const COYOTE_TIME = 0.12; const JUMP_BUFFER = 0.12; const CUT_GRAVITY_MULT = 2.5;
-  const PLAYER = { w:36, h:48 }; const WORLD = { width: 7000, height: 1200 };
+  function showSettings() {
+    hideAllOverlays();
+    settingsOverlay.classList.remove('hidden');
+    loadSettings();
+  }
 
-  // Entities classes (Same as yours)
-  class Platform { constructor(x,y,w,h,opts={}){ this.x=x; this.y=y; this.w=w; this.h=h; this.color = opts.color || '#23406f'; this.topColor = opts.topColor || '#2f5ca7'; this.move = opts.move || null; this.vx = 0; this.vy = 0; this.shadow = opts.shadow!==false; } update(dt){ this.vx = 0; this.vy = 0; if(this.move){ if(this.move.axis==='x'){ this.x += this.move.speed * this.move.dir * dt; this.vx = this.move.speed * this.move.dir; if(this.x < this.move.min){ this.x = this.move.min; this.move.dir = 1; } if(this.x + this.w > this.move.max){ this.x = this.move.max - this.w; this.move.dir = -1; } }else{ this.y += this.move.speed * this.move.dir * dt; this.vy = this.move.speed * this.move.dir; if(this.y < this.move.min){ this.y = this.move.min; this.move.dir = 1; } if(this.y + this.h > this.move.max){ this.y = this.move.max - this.h; this.move.dir = -1; } } } } draw(ctx, cam){ const x = this.x - cam.x, y = this.y - cam.y; if(this.shadow){ ctx.fillStyle = 'rgba(0,0,0,0.25)'; ctx.fillRect(x+6,y+8,this.w, this.h); } const radius = 8; ctx.fillStyle = this.color; roundRect(ctx, x, y, this.w, this.h, radius, true, false); ctx.fillStyle = this.topColor; roundRect(ctx, x, y, this.w, 10, {tl:radius,tr:radius,br:0,bl:0}, true, false); ctx.fillStyle = 'rgba(255,255,255,0.12)'; for(let i=10;i<this.w-8;i+=32){ ctx.fillRect(x+i, y+14, 6, 2); } } }
-  class Coin { constructor(x,y){ this.x=x; this.y=y; this.r = 10; this.collected = false; this.t = Math.random()*10; this.bob = rand(0, Math.PI*2); } update(dt){ this.t += dt; } draw(ctx, cam){ if(this.collected) return; const t = this.t; const s = 0.55 + 0.45 * Math.abs(Math.cos(t*3)); const bob = Math.sin(t*4 + this.bob)*3; const cx = this.x - cam.x, cy = this.y - cam.y + bob; ctx.save(); ctx.translate(cx, cy); ctx.scale(s, 1); const r = this.r; ctx.fillStyle = '#f7b50022'; ctx.beginPath(); ctx.arc(0,0,r+10,0,Math.PI*2); ctx.fill(); const grad = ctx.createRadialGradient(-3,-3,1, 0,0,r); grad.addColorStop(0,'#fff8cc'); grad.addColorStop(0.4,'#ffe066'); grad.addColorStop(1,'#d49900'); ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fill(); ctx.strokeStyle = 'rgba(100,60,0,0.5)'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(0,0,r-5,0,Math.PI*2); ctx.stroke(); ctx.fillStyle = '#ffffffaa'; ctx.beginPath(); ctx.arc(-5,-5,2,0,Math.PI*2); ctx.fill(); ctx.restore(); } aabb(){ return {x:this.x - this.r, y:this.y - this.r, w:this.r*2, h:this.r*2}; } }
-  class Spike { constructor(x,y,w=32,h=24){ this.x=x; this.y=y; this.w=w; this.h=h; } draw(ctx, cam){ const x = this.x - cam.x, y = this.y - cam.y; const n = Math.max(1, Math.floor(this.w/16)); const base = this.h; ctx.fillStyle = '#0a0f22'; ctx.fillRect(x+4, y+base+3, this.w-8, 4); for(let i=0;i<n;i++){ const sx = x + (i+0.1)*this.w/n; const w = this.w/n*0.8; ctx.beginPath(); ctx.moveTo(sx, y+base); ctx.lineTo(sx + w*0.5, y); ctx.lineTo(sx + w, y+base); ctx.closePath(); const grd = ctx.createLinearGradient(0,y,0,y+base); grd.addColorStop(0,'#e8f0ff'); grd.addColorStop(1,'#96a4c7'); ctx.fillStyle = grd; ctx.fill(); ctx.strokeStyle = 'rgba(0,0,0,0.2)'; ctx.lineWidth = 1; ctx.stroke(); } } aabb(){ return {x:this.x, y:this.y, w:this.w, h:this.h}; } }
-  class Goal { constructor(x,y){ this.x=x; this.y=y; this.w=40; this.h=80; this.t=0; } update(dt){ this.t += dt; } draw(ctx, cam){ const x = this.x - cam.x, y = this.y - cam.y; ctx.fillStyle = '#dedff6'; roundRect(ctx, x, y - this.h, 10, this.h+10, 5, true, false); const flutter = Math.sin(this.t*4)*6; ctx.save(); ctx.translate(x+10, y - this.h + 10); ctx.beginPath(); ctx.moveTo(0,0); ctx.quadraticCurveTo(28+flutter*0.3,10, 40+flutter, 0); ctx.quadraticCurveTo(28+flutter*0.3,-10, 0, -6); ctx.closePath(); const grd = ctx.createLinearGradient(0,-10,40,10); grd.addColorStop(0,'#5effc8'); grd.addColorStop(1,'#00cd8b'); ctx.fillStyle = grd; ctx.fill(); ctx.restore(); ctx.fillStyle = '#00ffbb22'; ctx.beginPath(); ctx.arc(x+10, y - this.h + 6, 36, 0, Math.PI*2); ctx.fill(); } aabb(){ return {x:this.x, y:this.y - this.h, w:this.w, h:this.h}; } }
+  function hideSettings() {
+    settingsOverlay.classList.add('hidden');
+    if(state === 'paused') {
+      pauseOverlay.classList.remove('hidden');
+    }
+  }
 
-  // Particles & Helpers (Same as yours)
-  const particles = []; let showParticles = true;
-  function spawnBurst(x,y,color='#ffffff',count=10,spd=180, life=0.5){ if(!showParticles) return; for(let i=0;i<count;i++) particles.push({ x,y, vx: rand(-1,1)*spd, vy: rand(-1, -0.2)*spd, life: life, t:0, color:color, size: rand(1.5,3.5) }); }
-  function updateParticles(dt){ for(let i=particles.length-1;i>=0;i--){ const p = particles[i]; p.t += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 900*dt; if(p.t >= p.life) particles.splice(i,1); } }
-  function drawParticles(ctx, cam){ if(!showParticles) return; particles.forEach(p=>{ const a = 1 - p.t/p.life; ctx.fillStyle = hexToRgba(p.color, a*0.9); ctx.beginPath(); ctx.arc(p.x - cam.x, p.y - cam.y, p.size, 0, Math.PI*2); ctx.fill(); }); }
-  function hexToRgba(hex,a){ const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16); return rgba(${r},${g},${b},${a}); }
-  function aabbIntersect(a,b){ return !(a.x+a.w<=b.x || a.x>=b.x+b.w || a.y+a.h<=b.y || a.y>=b.y+b.h); }
-  function roundRect(ctx, x, y, w, h, r, fill, stroke){ let tl, tr, br, bl; if(typeof r==='number') tl=tr=br=bl=r; else ({tl=0,tr=0,br=0,bl=0} = r); ctx.beginPath(); ctx.moveTo(x+tl, y); ctx.lineTo(x+w-tr, y); ctx.quadraticCurveTo(x+w, y, x+w, y+tr); ctx.lineTo(x+w, y+h-br); ctx.quadraticCurveTo(x+w, y+h, x+w-br, y+h); ctx.lineTo(x+bl, y+h); ctx.quadraticCurveTo(x, y+h, x, y+h-bl); ctx.lineTo(x, y+tl); ctx.quadraticCurveTo(x, y, x+tl, y); if(fill) ctx.fill(); if(stroke) ctx.stroke(); }
+  function quitToMenu() {
+    state = 'menu';
+    hideAllOverlays();
+    startOverlay.classList.remove('hidden');
+  }
+
+  function showMenu() {
+    state = 'menu';
+    hideAllOverlays();
+    startOverlay.classList.remove('hidden');
+  }
+
+  // Game constants
+  const GRAVITY = 2000;
+  const MOVE_ACCEL_GROUND = 2600;
+  const MOVE_ACCEL_AIR = 1800;
+  const MAX_RUN = 500;
+  const FRICTION = 2300;
+  const JUMP_VEL = 960;
+  const COYOTE_TIME = 0.12;
+  const JUMP_BUFFER = 0.12;
+  const CUT_GRAVITY_MULT = 2.5;
+
+  const PLAYER = { w:36, h:48 };
+
+  const WORLD = {
+    width: 7000,
+    height: 1200, // virtual (falling below kills)
+  };
+
+  // Entities
+  class Platform {
+    constructor(x,y,w,h,opts={}){
+      this.x=x; this.y=y; this.w=w; this.h=h;
+      this.color = opts.color || '#23406f';
+      this.topColor = opts.topColor || '#2f5ca7';
+      this.move = opts.move || null; // {axis:'x'|'y', min:number, max:number, speed:number, dir:1|-1}
+      this.vx = 0; this.vy = 0;
+      this.oneWay = !!opts.oneWay; // not used now (could be)
+      this.shadow = opts.shadow!==false;
+    }
+    update(dt){
+      this.vx = 0; this.vy = 0;
+      if(this.move){
+        if(this.move.axis==='x'){
+          this.x += this.move.speed * this.move.dir * dt;
+          this.vx = this.move.speed * this.move.dir;
+          if(this.x < this.move.min){ this.x = this.move.min; this.move.dir = 1; }
+          if(this.x + this.w > this.move.max){ this.x = this.move.max - this.w; this.move.dir = -1; }
+        }else{
+          this.y += this.move.speed * this.move.dir * dt;
+          this.vy = this.move.speed * this.move.dir;
+          if(this.y < this.move.min){ this.y = this.move.min; this.move.dir = 1; }
+          if(this.y + this.h > this.move.max){ this.y = this.move.max - this.h; this.move.dir = -1; }
+        }
+      }
+    }
+    draw(ctx, cam){
+      const x = this.x - cam.x, y = this.y - cam.y;
+      if(this.shadow){
+        ctx.fillStyle = 'rgba(0,0,0,0.25)';
+        ctx.fillRect(x+6,y+8,this.w, this.h);
+      }
+      // body
+      const radius = 8;
+      ctx.fillStyle = this.color;
+      roundRect(ctx, x, y, this.w, this.h, radius, true, false);
+      // top lip
+      ctx.fillStyle = this.topColor;
+      roundRect(ctx, x, y, this.w, 10, {tl:radius,tr:radius,br:0,bl:0}, true, false);
+      // rivets
+      ctx.fillStyle = 'rgba(255,255,255,0.12)';
+      for(let i=10;i<this.w-8;i+=32){
+        ctx.fillRect(x+i, y+14, 6, 2);
+      }
+    }
+  }
+
+  class Coin {
+    constructor(x,y){
+      this.x=x; this.y=y;
+      this.r = 10;
+      this.collected = false;
+      this.t = Math.random()*10;
+      this.bob = rand(0, Math.PI*2);
+    }
+    update(dt){
+      this.t += dt;
+    }
+    draw(ctx, cam){
+      if(this.collected) return;
+      const t = this.t;
+      const s = 0.55 + 0.45 * Math.abs(Math.cos(t*3));
+      const bob = Math.sin(t*4 + this.bob)*3;
+      const cx = this.x - cam.x, cy = this.y - cam.y + bob;
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(s, 1);
+      const r = this.r;
+      // glow
+      ctx.fillStyle = '#f7b50022';
+      ctx.beginPath(); ctx.arc(0,0,r+10,0,Math.PI*2); ctx.fill();
+      // coin
+      const grad = ctx.createRadialGradient(-3,-3,1, 0,0,r);
+      grad.addColorStop(0,'#fff8cc');
+      grad.addColorStop(0.4,'#ffe066');
+      grad.addColorStop(1,'#d49900');
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fill();
+      // inner ring
+      ctx.strokeStyle = 'rgba(100,60,0,0.5)';
+      ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(0,0,r-5,0,Math.PI*2); ctx.stroke();
+      // sparkle
+      ctx.fillStyle = '#ffffffaa';
+      ctx.beginPath(); ctx.arc(-5,-5,2,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+    }
+    aabb(){
+      return {x:this.x - this.r, y:this.y - this.r, w:this.r*2, h:this.r*2};
+    }
+  }
+
+  class Spike {
+    constructor(x,y,w=32,h=24){
+      this.x=x; this.y=y; this.w=w; this.h=h;
+    }
+    draw(ctx, cam){
+      const x = this.x - cam.x, y = this.y - cam.y;
+      const n = Math.max(1, Math.floor(this.w/16));
+      const base = this.h;
+      ctx.fillStyle = '#0a0f22';
+      ctx.fillRect(x+4, y+base+3, this.w-8, 4);
+      for(let i=0;i<n;i++){
+        const sx = x + (i+0.1)*this.w/n;
+        const w = this.w/n*0.8;
+        ctx.beginPath();
+        ctx.moveTo(sx, y+base);
+        ctx.lineTo(sx + w*0.5, y);
+        ctx.lineTo(sx + w, y+base);
+        ctx.closePath();
+        const grd = ctx.createLinearGradient(0,y,0,y+base);
+        grd.addColorStop(0,'#e8f0ff');
+        grd.addColorStop(1,'#96a4c7');
+        ctx.fillStyle = grd;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.2)'; ctx.lineWidth = 1; ctx.stroke();
+      }
+    }
+    aabb(){
+      return {x:this.x, y:this.y, w:this.w, h:this.h};
+    }
+  }
+
+  class Goal {
+    constructor(x,y){
+      this.x=x; this.y=y;
+      this.w=40; this.h=80;
+      this.t=0;
+    }
+    update(dt){ this.t += dt; }
+    draw(ctx, cam){
+      const x = this.x - cam.x, y = this.y - cam.y;
+      // pole
+      ctx.fillStyle = '#dedff6';
+      roundRect(ctx, x, y - this.h, 10, this.h+10, 5, true, false);
+      // flag
+      const flutter = Math.sin(this.t*4)*6;
+      ctx.save();
+      ctx.translate(x+10, y - this.h + 10);
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.quadraticCurveTo(28+flutter*0.3,10, 40+flutter, 0);
+      ctx.quadraticCurveTo(28+flutter*0.3,-10, 0, -6);
+      ctx.closePath();
+      const grd = ctx.createLinearGradient(0,-10,40,10);
+      grd.addColorStop(0,'#5effc8'); grd.addColorStop(1,'#00cd8b');
+      ctx.fillStyle = grd; ctx.fill();
+      ctx.restore();
+      // glow
+      ctx.fillStyle = '#00ffbb22';
+      ctx.beginPath(); ctx.arc(x+10, y - this.h + 6, 36, 0, Math.PI*2); ctx.fill();
+    }
+    aabb(){ return {x:this.x, y:this.y - this.h, w:this.w, h:this.h}; }
+  }
+
+  // Particles
+  const particles = [];
+  let showParticles = true;
+  
+  function spawnBurst(x,y,color='#ffffff',count=10,spd=180, life=0.5){
+    if(!showParticles) return;
+    for(let i=0;i<count;i++){
+      particles.push({
+        x,y, vx: rand(-1,1)*spd, vy: rand(-1, -0.2)*spd,
+        life: life, t:0, color:color, size: rand(1.5,3.5)
+      });
+    }
+  }
+  function updateParticles(dt, cam){
+    for(let i=particles.length-1;i>=0;i--){
+      const p = particles[i];
+      p.t += dt;
+      p.x += p.vx * dt; p.y += p.vy * dt;
+      p.vy += 900*dt;
+      if(p.t >= p.life) particles.splice(i,1);
+    }
+  }
+  function drawParticles(ctx, cam){
+    if(!showParticles) return;
+    particles.forEach(p=>{
+      const a = 1 - p.t/p.life;
+      ctx.fillStyle = hexToRgba(p.color, a*0.9);
+      ctx.beginPath(); ctx.arc(p.x - cam.x, p.y - cam.y, p.size, 0, Math.PI*2); ctx.fill();
+    });
+  }
+
+  function hexToRgba(hex,a){
+    // expects #rrggbb
+    const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+    return `rgba(${r},${g},${b},${a})`;
+  }
+
+  // Helpers
+  function aabbIntersect(a,b){
+    return !(a.x+a.w<=b.x || a.x>=b.x+b.w || a.y+a.h<=b.y || a.y>=b.y+b.h);
+  }
+  function roundRect(ctx, x, y, w, h, r, fill, stroke){
+    let tl, tr, br, bl;
+    if(typeof r==='number'){ tl=tr=br=bl=r; }
+    else { ({tl=0,tr=0,br=0,bl=0} = r); }
+    ctx.beginPath();
+    ctx.moveTo(x+tl, y);
+    ctx.lineTo(x+w-tr, y);
+    ctx.quadraticCurveTo(x+w, y, x+w, y+tr);
+    ctx.lineTo(x+w, y+h-br);
+    ctx.quadraticCurveTo(x+w, y+h, x+w-br, y+h);
+    ctx.lineTo(x+bl, y+h);
+    ctx.quadraticCurveTo(x, y+h, x, y+h-bl);
+    ctx.lineTo(x, y+tl);
+    ctx.quadraticCurveTo(x, y, x+tl, y);
+    if(fill) ctx.fill();
+    if(stroke) ctx.stroke();
+  }
+
+  // Camera
   const camera = { x:0, y:0, shakeT:0, shakeMag:0 };
-  function shake(mag=8, time=0.18){ camera.shakeMag = Math.max(camera.shakeMag, mag); camera.shakeT = Math.max(camera.shakeT, time); if(navigator.vibrate) navigator.vibrate(30); }
+  function shake(mag=8, time=0.18){
+    camera.shakeMag = Math.max(camera.shakeMag, mag);
+    camera.shakeT = Math.max(camera.shakeT, time);
+    if(navigator.vibrate) navigator.vibrate(30);
+  }
 
-  const player = { x:0, y:0, vx:0, vy:0, w:PLAYER.w, h:PLAYER.h, onGround:false, ground:null, coyote:0, extraJumps:1, face:1, invuln:0, alive:true, landed:false, animT:0 };
-  const solids = []; const coins = []; const spikes = []; let goal = null;
-  let state = 'menu'; let timeStart = 0; let runTime = 0; let coinCount = 0; let bestTime = parseFloat(localStorage.getItem('skybound_best')||'NaN');
+  // Player
+  const player = {
+    x:0, y:0, vx:0, vy:0, w:PLAYER.w, h:PLAYER.h,
+    onGround:false, ground:null,
+    coyote:0, extraJumps:1, face:1, invuln:0, alive:true, landed:false,
+    animT:0,
+  };
 
-  function resetPlayer(){ player.vx=player.vy=0; player.onGround=false; player.ground=null; player.coyote=0; player.extraJumps=1; player.face=1; player.alive=true; player.invuln=0; player.animT=0; player.x = levelSpawn.x; player.y = levelSpawn.y - player.h; }
+  // Level data
+  const solids = [];
+  const coins = [];
+  const spikes = [];
+  let goal = null;
+
+  // State
+  let state = 'menu'; // menu, playing, paused, win, over
+  let timeStart = 0;
+  let runTime = 0;
+  let coinCount = 0;
+  let bestTime = parseFloat(localStorage.getItem('skybound_best')||'NaN');
+
+  function resetPlayer(){
+    player.vx=player.vy=0;
+    player.onGround=false; player.ground=null; player.coyote=0; player.extraJumps=1; player.face=1; player.alive=true; player.invuln=0; player.animT=0;
+    const spawn = levelSpawn;
+    player.x = spawn.x; player.y = spawn.y - player.h;
+  }
+
   let levelSpawn = {x:60, y:520};
   function generateLevel(seed = Math.random()*1e9){
-    Math.seed = seed; solids.length = 0; coins.length = 0; spikes.length = 0; particles.length = 0; goal = null;
-    const baseY = 560; let x = -40; solids.push(new Platform(x, baseY, 320, 26, {color:'#253c6b', topColor:'#3a67c4'})); levelSpawn = {x: x+50, y: baseY};
-    let prevY = baseY-4; let lastW = 320;
+    Math.seed = seed;
+    solids.length = 0; coins.length = 0; spikes.length = 0; particles.length = 0; goal = null;
+
+    const baseY = 560;
+    let x = -40;
+    // Start platform
+    solids.push(new Platform(x, baseY, 320, 26, {color:'#253c6b', topColor:'#3a67c4'}));
+    levelSpawn = {x: x+50, y: baseY};
+
+    // Procedural sequence of platforms
+    let prevY = baseY-4;
+    let lastW = 320;
+
     for(let i=0;i<30;i++){
-      const gap = rand(90, 230); x += lastW + gap; const w = rand(140, 300); prevY = clamp(prevY + rand(-120, 120), 200, 620); const y = prevY;
-      if(Math.random() < 0.22){
+      const gap = rand(90, 230);
+      x += lastW + gap;
+      const w = rand(140, 300);
+      prevY = clamp(prevY + rand(-120, 120), 200, 620);
+      const y = prevY;
+
+      const moving = Math.random() < 0.22;
+      if(moving){
         const axis = Math.random() < 0.55 ? 'x' : 'y';
-        if(axis==='x') solids.push(new Platform(x, y, w, 22, {color:'#20345e', topColor:'#2f58a6', move:{axis:'x', min:x-80, max:x+120, speed: irand(45, 85), dir: Math.random()<0.5?-1:1}}));
-        else solids.push(new Platform(x, y, w, 22, {color:'#20345e', topColor:'#2f58a6', move:{axis:'y', min:y-80, max:y+80, speed: irand(45, 80), dir: Math.random()<0.5?-1:1}}));
-      } else solids.push(new Platform(x, y, w, 22, {color:'#253c6b', topColor:'#3a67c4'}));
-      lastW = w; const cnum = irand(2,4); for(let c=0;c<cnum;c++) coins.push(new Coin(x + (w/(cnum+1))*(c+1), y - rand(36, 64)));
-      if(Math.random()<0.35 && w>180){ const sW = irand(24, Math.min(120, w-40)); spikes.push(new Spike(x + rand(20, w - sW - 20), y - 24, sW, 24)); }
+        if(axis==='x'){
+          const p = new Platform(x, y, w, 22, {color:'#20345e', topColor:'#2f58a6',
+            move:{axis:'x', min:x-80, max:x+120, speed: irand(45, 85), dir: Math.random()<0.5?-1:1}});
+          solids.push(p);
+        }else{
+          const p = new Platform(x, y, w, 22, {color:'#20345e', topColor:'#2f58a6',
+            move:{axis:'y', min:y-80, max:y+80, speed: irand(45, 80), dir: Math.random()<0.5?-1:1}});
+          solids.push(p);
+        }
+      }else{
+        solids.push(new Platform(x, y, w, 22, {color:'#253c6b', topColor:'#3a67c4'}));
+      }
+      lastW = w;
+
+      // Coins
+      const cnum = irand(2,4);
+      for(let c=0;c<cnum;c++){
+        const cx = x + (w/(cnum+1))*(c+1);
+        const cy = y - rand(36, 64);
+        coins.push(new Coin(cx, cy));
+      }
+      // Spikes occasionally
+      if(Math.random()<0.35 && w>180){
+        const sW = irand(24, Math.min(120, w-40));
+        const sX = x + rand(20, w - sW - 20);
+        spikes.push(new Spike(sX, y - 24, sW, 24));
+      }
     }
-    for(let k=0;k<5;k++){ const px = x + 180 + k*220 + rand(-40,40); const py = clamp(520 - k*24 + rand(-20, 20), 220, 600); solids.push(new Platform(px, py, irand(100,180), 30, {color:'#263f72', topColor:'#3b6cd1'})); coins.push(new Coin(px + 40, py - 40)); }
-    const endX = x + 1100; const finalY = clamp(prevY - 20, 240, 560); solids.push(new Platform(endX - 120, finalY + 60, 260, 20, {color:'#1d325e', topColor:'#2d5bad'})); goal = new Goal(endX, finalY + 60); WORLD.width = endX + 400;
+
+    // Some tall pillar challenges
+    for(let k=0;k<5;k++){
+      const px = x + 180 + k*220 + rand(-40,40);
+      const ph = rand(28, 40);
+      const py = clamp(520 - k*24 + rand(-20, 20), 220, 600);
+      solids.push(new Platform(px, py, irand(100,180), ph, {color:'#263f72', topColor:'#3b6cd1'}));
+      // coins above pillars
+      coins.push(new Coin(px + 40, py - 40));
+    }
+
+    // Goal at end
+    const endX = x + 1100;
+    const finalY = clamp(prevY - 20, 240, 560);
+    solids.push(new Platform(endX - 120, finalY + 60, 260, 20, {color:'#1d325e', topColor:'#2d5bad'}));
+    goal = new Goal(endX, finalY + 60);
+
+    WORLD.width = endX + 400;
   }
 
+  // Game control
   function startGame(){
-    hideAllOverlays(); state = 'playing'; resumeAudio();
-    runTime = 0; coinCount = 0; hudCoin.textContent = '0'; timeStart = performance.now();
-    camera.x = 0; camera.y = 0; camera.shakeT=0; generateLevel(); resetPlayer();
-    if(crazySDK) crazySDK.game.gameplayStart();
+    hideAllOverlays();
+    state = 'playing';
+    resumeAudio();
+    runTime = 0;
+    coinCount = 0;
+    hudCoin.textContent = '0';
+    timeStart = performance.now();
+    camera.x = 0; camera.y = 0; camera.shakeT=0;
+    generateLevel();
+    resetPlayer();
   }
   function gameOver(){
     if(state!=='playing') return;
-    state = 'over'; sfx('death'); shake(12,0.4); showOverlay(overOverlay);
-    overStats.innerHTML = Coins: <b>${coinCount}</b> &nbsp;•&nbsp; Time: <b>${formatTime(runTime)}</b>;
-    if(crazySDK) crazySDK.game.gameplayStop();
-    requestAd(); // Offer ad after death
+    state = 'over';
+    sfx('death'); shake(12,0.4);
+    showOverlay(overOverlay);
+    overStats.innerHTML = `Coins: <b>${coinCount}</b> &nbsp;•&nbsp; Time: <b>${formatTime(runTime)}</b>`;
   }
   function win(){
     if(state!=='playing') return;
-    state = 'win'; sfx('win'); showOverlay(winOverlay);
-    winStats.innerHTML = Coins: <b>${coinCount}</b> &nbsp;•&nbsp; Time: <b>${formatTime(runTime)}</b>;
-    if(!isFinite(bestTime) || runTime < bestTime){ bestTime = runTime; localStorage.setItem('skybound_best', String(bestTime)); }
-    updateHUD(); if(crazySDK) crazySDK.game.gameplayStop();
+    state = 'win';
+    sfx('win');
+    showOverlay(winOverlay);
+    winStats.innerHTML = `Coins: <b>${coinCount}</b> &nbsp;•&nbsp; Time: <b>${formatTime(runTime)}</b>`;
+    // Record best
+    if(!isFinite(bestTime) || runTime < bestTime){
+      bestTime = runTime;
+      localStorage.setItem('skybound_best', String(bestTime));
+    }
+    updateHUD();
   }
-  function restart(){ startGame(); }
-  function showOverlay(el){ hideAllOverlays(); el.classList.remove('hidden'); }
+  function restart(){
+    if(state==='menu'){ startGame(); return; }
+    startGame();
+  }
+
+  function showOverlay(el){ startOverlay.classList.add('hidden'); pauseOverlay.classList.add('hidden'); settingsOverlay.classList.add('hidden'); winOverlay.classList.add('hidden'); overOverlay.classList.add('hidden'); el.classList.remove('hidden'); }
   function hideAllOverlays(){ startOverlay.classList.add('hidden'); pauseOverlay.classList.add('hidden'); settingsOverlay.classList.add('hidden'); winOverlay.classList.add('hidden'); overOverlay.classList.add('hidden'); }
   function formatTime(t){ return (Math.round(t*10)/10).toFixed(1); }
-  function updateHUD(){ hudCoin.textContent = coinCount; hudTime.textContent = formatTime(runTime); hudBest.textContent = isFinite(bestTime) ? formatTime(bestTime) : '—'; }
+  function updateHUD(){
+    hudCoin.textContent = coinCount;
+    hudTime.textContent = formatTime(runTime);
+    hudBest.textContent = isFinite(bestTime) ? formatTime(bestTime) : '—';
+  }
+  
+  // Load settings on start
+  loadSettings();
+  updateHUD();
 
-  loadSettings(); updateHUD();
+  // Physics and update
   let last = performance.now();
-  function loop(now){ const rawDt = Math.min(0.033, (now - last)/1000); last = now; if(state === 'playing' || state === 'menu'){ const steps = Math.max(1, Math.round(rawDt / (1/120))); for(let i=0;i<steps;i++) tick(rawDt / steps); } draw(); requestAnimationFrame(loop); }
+  function loop(now){
+    const rawDt = Math.min(0.033, (now - last)/1000);
+    last = now;
+
+    if(state === 'playing' || state === 'menu'){
+      const steps = Math.max(1, Math.round(rawDt / (1/120)));
+      for(let i=0;i<steps;i++){
+        const dt = rawDt / steps;
+        tick(dt);
+      }
+    }
+    draw();
+    requestAnimationFrame(loop);
+  }
   requestAnimationFrame(loop);
 
   function tick(dt){
-    if(state==='playing'){ runTime += dt; updateHUD(); }
-    solids.forEach(p=>p.update(dt)); coins.forEach(c=>c.update(dt)); if(goal) goal.update(dt);
-    if(state==='playing') handlePlayer(dt);
-    const cw = canvas.clientWidth; const targetX = clamp(player.x + player.w*0.5 - cw*0.45, 0, Math.max(0, WORLD.width - cw)); camera.x += (targetX - camera.x) * 0.12; if(camera.shakeT > 0) camera.shakeT -= dt;
-    updateParticles(dt);
+    if(state==='playing'){
+      runTime += dt;
+      updateHUD();
+    }
+
+    // Update environment
+    solids.forEach(p=>p.update(dt));
+    coins.forEach(c=>c.update(dt));
+    if(goal) goal.update(dt);
+
+    // Player update
+    if(state==='playing'){
+      handlePlayer(dt);
+    }
+
+    // Camera update
+    const cw = canvas.clientWidth, ch = canvas.clientHeight;
+    const targetX = clamp(player.x + player.w*0.5 - cw*0.45, 0, Math.max(0, WORLD.width - cw));
+    const targetY = 0; // fixed
+    camera.x += (targetX - camera.x) * 0.12;
+    camera.y += (targetY - camera.y) * 0.1;
+
+    if(camera.shakeT > 0){
+      camera.shakeT -= dt;
+    }
+
+    // Particles
+    updateParticles(dt, camera);
   }
 
   function handlePlayer(dt){
-    player.animT += dt; if(player.invuln>0) player.invuln -= dt;
+    player.animT += dt;
+    if(player.invuln>0) player.invuln -= dt;
+
+    // Horizontal movement
     const accel = player.onGround ? MOVE_ACCEL_GROUND : MOVE_ACCEL_AIR;
     const dir = (input.right?1:0) - (input.left?1:0);
-    if(dir!==0){ player.vx += accel * dir * dt; player.face = dir; } else if(player.onGround) player.vx -= Math.min(Math.abs(player.vx), FRICTION*dt) * sign(player.vx);
-    player.vx = clamp(player.vx, -MAX_RUN, MAX_RUN);
-    if(input.jumpPressed){ input.jumpBuffer = JUMP_BUFFER; input.jumpPressed = false; }
-    if(input.jumpBuffer>0) input.jumpBuffer -= dt;
-    if(player.onGround) player.coyote = COYOTE_TIME; else if(player.coyote>0) player.coyote -= dt;
-    if(input.jump && input.jumpBuffer>0){
-      if(player.onGround || player.coyote>0){ player.vy = -JUMP_VEL; player.onGround = false; player.coyote = 0; input.jumpBuffer = 0; player.extraJumps = 1; sfx('jump'); spawnBurst(player.x+player.w/2, player.y+player.h, '#88d0ff', 12, 220, 0.35); }
-      else if(player.extraJumps>0){ player.vy = -JUMP_VEL*0.95; player.extraJumps--; input.jumpBuffer=0; sfx('jump'); spawnBurst(player.x+player.w/2, player.y+player.h, '#ffd188', 10, 240, 0.3); }
+    if(dir!==0){
+      player.vx += accel * dir * dt;
+      player.face = dir;
+    }else{
+      // friction
+      if(player.onGround){
+        const f = Math.min(Math.abs(player.vx), FRICTION*dt) * sign(player.vx);
+        player.vx -= f;
+      }
     }
-    if(!input.jump && player.vy < 0) player.vy += GRAVITY*(CUT_GRAVITY_MULT-1)*dt;
+    player.vx = clamp(player.vx, -MAX_RUN, MAX_RUN);
+
+    // Jump buffering
+    if(input.jumpPressed){
+      input.jumpBuffer = JUMP_BUFFER;
+      input.jumpPressed = false;
+    }
+    if(input.jumpBuffer>0) input.jumpBuffer -= dt;
+
+    // Coyote
+    if(player.onGround) player.coyote = COYOTE_TIME;
+    else if(player.coyote>0) player.coyote -= dt;
+
+    // Jump
+    if(input.jump && input.jumpBuffer>0){
+      if(player.onGround || player.coyote>0){
+        player.vy = -JUMP_VEL;
+        player.onGround = false; player.ground=null; player.coyote=0; input.jumpBuffer=0;
+        player.extraJumps = 1; // reset midair jumps after ground; we consumed ground jump
+        sfx('jump'); spawnBurst(player.x+player.w/2, player.y+player.h, '#88d0ff', 12, 220, 0.35);
+      }else if(player.extraJumps>0){
+        player.vy = -JUMP_VEL*0.95;
+        player.extraJumps--;
+        input.jumpBuffer=0;
+        sfx('jump'); spawnBurst(player.x+player.w/2, player.y+player.h, '#ffd188', 10, 240, 0.3);
+      }
+    }
+    // Variable jump height: cut if releasing while going up
+    if(!input.jump && player.vy < 0){
+      player.vy += GRAVITY*(CUT_GRAVITY_MULT-1)*dt;
+    }
+
+    // Gravity
     player.vy += GRAVITY*dt;
-    const newX = player.x + player.vx*dt; const newY = player.y + player.vy*dt;
-    let rect = {x:newX, y:player.y, w:player.w, h:player.h}; let collidedX = false;
-    for(const s of solids){ if(aabbIntersect(rect, s)){ if(player.vx>0) rect.x = s.x - player.w; else if(player.vx<0) rect.x = s.x + s.w; player.vx = 0; collidedX=true; } }
-    player.x = rect.x; rect = {x:player.x, y:newY, w:player.w, h:player.h}; let groundedOn = null;
-    for(const s of solids){ if(aabbIntersect(rect, s)){ if(player.vy>0){ rect.y = s.y - player.h; groundedOn = s; } else if(player.vy<0) rect.y = s.y + s.h; player.vy = 0; } }
-    player.y = rect.y; const wasOnGround = player.onGround; player.onGround = groundedOn!==null; player.ground = groundedOn;
-    if(player.onGround && !wasOnGround) sfx('land');
-    if(player.onGround && player.ground) player.x += player.ground.vx * dt;
+
+    // Integrate with collisions
+    const px = player.x, py = player.y;
+    const newX = px + player.vx*dt;
+    const newY = py + player.vy*dt;
+
+    // Horizontal sweep
+    let rect = {x:newX, y:py, w:player.w, h:player.h};
+    let collidedX = false;
+    for(const s of solids){
+      const r = {x:s.x, y:s.y, w:s.w, h:s.h};
+      if(aabbIntersect(rect, r)){
+        if(player.vx>0){ rect.x = s.x - player.w; collidedX = true; }
+        else if(player.vx<0){ rect.x = s.x + s.w; collidedX = true; }
+        player.vx = 0;
+      }
+    }
+    player.x = rect.x;
+
+    // Vertical sweep
+    rect = {x:player.x, y:newY, w:player.w, h:player.h};
+    let collidedY = false;
+    let groundedOn = null;
+    for(const s of solids){
+      const r = {x:s.x, y:s.y, w:s.w, h:s.h};
+      if(aabbIntersect(rect, r)){
+        if(player.vy>0){ // falling
+          rect.y = s.y - player.h;
+          collidedY = true; groundedOn = s;
+        }else if(player.vy<0){ // going up
+          rect.y = s.y + s.h;
+          collidedY = true;
+        }
+        player.vy = 0;
+      }
+    }
+    player.y = rect.y;
+
+    const wasOnGround = player.onGround;
+    player.onGround = groundedOn!==null;
+    player.ground = groundedOn;
+
+    if(player.onGround && !wasOnGround){
+      sfx('land');
+    }
+
+    // Moving platform carry
+    if(player.onGround && player.ground){
+      player.x += player.ground.vx * dt;
+      // small stickiness to keep on platform edges
+      if(collidedX === false && player.vx===0 && Math.abs(player.ground.vx)>0){
+        // do nothing else
+      }
+    }
+
+    // Coin collection
     const pBox = {x:player.x, y:player.y, w:player.w, h:player.h};
-    for(const c of coins) if(!c.collected && aabbIntersect(pBox, c.aabb())){ c.collected = true; coinCount++; hudCoin.textContent = coinCount; sfx('coin'); spawnBurst(c.x, c.y, '#ffd85a', 14, 260, 0.6); }
-    for(const sp of spikes) if(aabbIntersect(pBox, sp.aabb())) return gameOver();
-    if(goal && aabbIntersect(pBox, goal.aabb())) return win();
-    if(player.y > 1200) return gameOver();
+    for(const c of coins){
+      if(!c.collected && aabbIntersect(pBox, c.aabb())){
+        c.collected = true;
+        coinCount++;
+        hudCoin.textContent = coinCount;
+        sfx('coin');
+        spawnBurst(c.x, c.y, '#ffd85a', 14, 260, 0.6);
+      }
+    }
+
+    // Hazard collision
+    for(const sp of spikes){
+      if(aabbIntersect(pBox, sp.aabb())){
+        return gameOver();
+      }
+    }
+
+    // Goal
+    if(goal && aabbIntersect(pBox, goal.aabb())){
+      return win();
+    }
+
+    // Death by falling
+    if(player.y > 1200){
+      return gameOver();
+    }
   }
 
-  // Draw Functions (Same as yours)
-  function draw(){ const w = canvas.clientWidth, h = canvas.clientHeight; ctx.clearRect(0,0,w,h); const cam = {x: camera.x + (camera.shakeT>0?(Math.random()*2-1)*camera.shakeMag:0), y: camera.y}; drawBackdrop(w,h); drawMountains(w,h, camera.x*0.2, '#0e1a36', 0.8); drawMountains(w,h, camera.x*0.35, '#13224a', 0.6); drawClouds(w,h, camera.x*0.1); solids.forEach(p=>p.draw(ctx, cam)); spikes.forEach(s=>s.draw(ctx, cam)); coins.forEach(c=>c.draw(ctx, cam)); if(goal) goal.draw(ctx, cam); drawPlayer(ctx, cam); drawParticles(ctx, cam); const grad = ctx.createRadialGradient(w*0.5,h*0.4, Math.min(w,h)*0.2, w*0.5,h*0.4, Math.max(w,h)*0.9); grad.addColorStop(0,'rgba(0,0,0,0)'); grad.addColorStop(1,'rgba(0,0,0,0.4)'); ctx.fillStyle = grad; ctx.fillRect(0,0,w,h); }
-  function drawBackdrop(w,h){ ctx.save(); ctx.fillStyle = '#ffffff'; const seed = Math.floor(camera.x*0.05); for(let i=0;i<40;i++){ const sx = ((i*97 + seed*23) % w); const sy = ((i*167 + seed*59) % (h*0.6)); ctx.globalAlpha = 0.15 + ((i*37)%10)/50; ctx.beginPath(); ctx.arc(sx, sy+30, 1, 0, Math.PI*2); ctx.fill(); } ctx.restore(); }
-  function drawMountains(w,h, offset, color, alpha=0.7){ ctx.save(); ctx.globalAlpha = alpha; ctx.fillStyle = color; ctx.beginPath(); const baseY = h*0.82; ctx.moveTo(-100, baseY); for(let x=-100; x<w+100; x+=180){ ctx.lineTo(x+60, baseY - (80 + Math.sin((x+offset)*0.002)*40 + Math.cos((x+offset)*0.004)*30)); ctx.lineTo(x+180, baseY); } ctx.lineTo(w+120, h+120); ctx.lineTo(-120, h+120); ctx.closePath(); ctx.fill(); ctx.restore(); }
-  function drawClouds(w,h, offset){ ctx.save(); ctx.globalAlpha = 0.28; for(let i=0;i<6;i++) drawCloud(((i*400 - offset*0.6) % (w+600)) - 200, 80 + (i%3)*40 + Math.sin((i*57 + performance.now()*0.0002))*10, 140); ctx.restore(); }
-  function drawCloud(x,y,size){ ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.beginPath(); ctx.arc(x, y, size*0.3, 0, Math.PI*2); ctx.arc(x+size*0.25, y-10, size*0.24, 0, Math.PI*2); ctx.arc(x+size*0.5, y+6, size*0.28, 0, Math.PI*2); ctx.fill(); }
-  function drawPlayer(ctx, cam){ const x = Math.round(player.x - cam.x), y = Math.round(player.y - cam.y), w = player.w, h = player.h; ctx.fillStyle = 'rgba(0,0,0,0.35)'; ctx.beginPath(); ctx.ellipse(x + w*0.5, y + h + 8, w*0.4, 6, 0, 0, Math.PI*2); ctx.fill(); const bob = player.onGround ? Math.sin(player.animT*20 * (Math.abs(player.vx)/MAX_RUN)) * 2 : 0; ctx.save(); ctx.translate(x + w/2, y + h/2 + bob); ctx.scale(player.face, 1); ctx.fillStyle = '#20345e'; roundRect(ctx, -w*0.47, -h*0.1, 10, 18, 3, true, false); ctx.fillStyle = '#1f3b7a'; roundRect(ctx, -10, 6, 8, 20, 3, true, false); roundRect(ctx, 2, 6, 8, 20, 3, true, false); const torsoGrad = ctx.createLinearGradient(0,-20,0,16); torsoGrad.addColorStop(0,'#3a7bff'); torsoGrad.addColorStop(1,'#2156d6'); ctx.fillStyle = torsoGrad; roundRect(ctx, -12, -18, 24, 34, 6, true, false); ctx.fillStyle = '#ffe1c1'; roundRect(ctx, -11, -34, 22, 18, 6, true, false); ctx.fillStyle = '#0d1a3a'; ctx.fillRect(-5, -28, 4, 4); ctx.fillRect(1, -28, 4, 4); ctx.restore(); }
+  // Draw
+  function draw(){
+    const w = canvas.clientWidth, h = canvas.clientHeight;
 
-  generateLevel(); resetPlayer();
+    // Background sky gradient already on canvas; enhance parallax
+    ctx.clearRect(0,0,w,h);
+
+    const shakeX = camera.shakeT>0 ? (Math.random()*2-1)*camera.shakeMag : 0;
+    const shakeY = camera.shakeT>0 ? (Math.random()*2-1)*camera.shakeMag : 0;
+
+    // Starfield / distant haze
+    drawBackdrop(w, h);
+
+    // Parallax mountains
+    drawMountains(w,h, camera.x*0.2, '#0e1a36', 0.8);
+    drawMountains(w,h, camera.x*0.35, '#13224a', 0.6);
+    drawClouds(w,h, camera.x*0.1);
+
+    const cam = {x: camera.x + shakeX, y: camera.y + shakeY};
+
+    // Platforms shadows pass
+    ctx.globalAlpha = 1;
+    solids.forEach(p=>p.draw(ctx, cam));
+    spikes.forEach(s=>s.draw(ctx, cam));
+    coins.forEach(c=>c.draw(ctx, cam));
+    if(goal) goal.draw(ctx, cam);
+
+    // Player
+    drawPlayer(ctx, cam);
+
+    // Particles
+    drawParticles(ctx, cam);
+
+    // Foreground vignette
+    const grad = ctx.createRadialGradient(w*0.5,h*0.4, Math.min(w,h)*0.2, w*0.5,h*0.4, Math.max(w,h)*0.9);
+    grad.addColorStop(0,'rgba(0,0,0,0)');
+    grad.addColorStop(1,'rgba(0,0,0,0.4)');
+    ctx.fillStyle = grad; ctx.fillRect(0,0,w,h);
+  }
+
+  function drawBackdrop(w,h){
+    // subtle stars
+    ctx.save();
+    ctx.globalAlpha = 0.55;
+    ctx.fillStyle = '#ffffff';
+    const seed = Math.floor(camera.x*0.05);
+    for(let i=0;i<40;i++){
+      const sx = ((i*97 + seed*23) % w);
+      const sy = ((i*167 + seed*59) % (h*0.6));
+      const r = ((i*13)%3)*0.5 + 0.5;
+      ctx.globalAlpha = 0.15 + ((i*37)%10)/50;
+      ctx.beginPath(); ctx.arc(sx, sy+30, r, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawMountains(w,h, offset, color, alpha=0.7){
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    const baseY = h*0.82;
+    ctx.moveTo(-100, baseY);
+    const step = 180;
+    for(let x=-100; x<w+100; x+=step){
+      const peak = baseY - (80 + Math.sin((x+offset)*0.002)*40 + Math.cos((x+offset)*0.004)*30);
+      ctx.lineTo(x+step*0.3, peak);
+      ctx.lineTo(x+step, baseY);
+    }
+    ctx.lineTo(w+120, h+120);
+    ctx.lineTo(-120, h+120);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawClouds(w,h, offset){
+    ctx.save();
+    ctx.globalAlpha = 0.28;
+    for(let i=0;i<6;i++){
+      const x = ((i*400 - offset*0.6) % (w+600)) - 200;
+      const y = 80 + (i%3)*40 + Math.sin((i*57 + performance.now()*0.0002))*10;
+      drawCloud(x, y, 140 + (i%3)*20);
+    }
+    ctx.restore();
+  }
+  function drawCloud(x,y,size){
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(x, y, size*0.3, 0, Math.PI*2);
+    ctx.arc(x+size*0.25, y-10, size*0.24, 0, Math.PI*2);
+    ctx.arc(x+size*0.5, y+6, size*0.28, 0, Math.PI*2);
+    ctx.arc(x+size*0.75, y-8, size*0.2, 0, Math.PI*2);
+    ctx.arc(x+size, y+10, size*0.24, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.fill();
+  }
+
+  function drawPlayer(ctx, cam){
+    const x = Math.round(player.x - cam.x), y = Math.round(player.y - cam.y);
+    const w = player.w, h = player.h;
+
+    // Shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    ctx.beginPath(); ctx.ellipse(x + w*0.5, y + h + 8, w*0.4, 6, 0, 0, Math.PI*2); ctx.fill();
+
+    // Body
+    const t = player.animT;
+    const bob = player.onGround ? Math.sin(t*20 * (Math.abs(player.vx)/MAX_RUN)) * 2 : 0;
+
+    ctx.save();
+    ctx.translate(x + w/2, y + h/2 + bob);
+    ctx.scale(player.face, 1);
+
+    // Backpack
+    ctx.fillStyle = '#20345e';
+    roundRect(ctx, -w*0.47, -h*0.1, 10, 18, 3, true, false);
+
+    // Legs
+    const walk = Math.sin(t*24 * (Math.abs(player.vx)/MAX_RUN));
+    ctx.fillStyle = '#1f3b7a';
+    roundRect(ctx, -10, 6, 8, 20, 3, true, false);
+    roundRect(ctx, 2, 6, 8, 20, 3, true, false);
+    ctx.fillStyle = '#274b99';
+    roundRect(ctx, -10, 6 + walk*2, 8, 10, 3, true, false);
+    roundRect(ctx, 2, 6 - walk*2, 8, 10, 3, true, false);
+
+    // Torso
+    const torsoGrad = ctx.createLinearGradient(0,-20,0,16);
+    torsoGrad.addColorStop(0,'#3a7bff');
+    torsoGrad.addColorStop(1,'#2156d6');
+    ctx.fillStyle = torsoGrad;
+    roundRect(ctx, -12, -18, 24, 34, 6, true, false);
+
+    // Head
+    ctx.fillStyle = '#ffe1c1';
+    roundRect(ctx, -11, -34, 22, 18, 6, true, false);
+
+    // Face
+    ctx.fillStyle = '#0d1a3a';
+    ctx.fillRect(-5, -28, 4, 4);
+    ctx.fillRect(1, -28, 4, 4);
+
+    // Jetpack flame on jump
+    if(!player.onGround && player.vy < -100){
+      const f = Math.min(1, (-player.vy-100)/600);
+      ctx.save();
+      ctx.translate(-14, -4);
+      const grad = ctx.createLinearGradient(0,0,-12,22);
+      grad.addColorStop(0, 'rgba(255,255,200,0.9)');
+      grad.addColorStop(0.6, 'rgba(255,160,60,0.8)');
+      grad.addColorStop(1, 'rgba(255,0,0,0.0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.lineTo(-8,6);
+      ctx.lineTo(-12, 14 + f*10);
+      ctx.lineTo(-6, 10 + f*16);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    ctx.restore();
+  }
+
+  // Interactions for menu input
+  canvas.addEventListener('pointerdown', ()=>{
+    if(state==='menu'){ resumeAudio(); startGame(); }
+  });
+
+  // Start at menu with generated level preview
+  generateLevel();
+  resetPlayer();
+
+  // Utility: seeded random (deterministic generation if needed)
+  Math.seed = Math.random()*1e9;
+  Math.srand = function(){
+    Math.seed = (Math.seed * 1664525 + 1013904223) % 4294967296;
+    return Math.seed / 4294967296;
+  };
+
 })();
 </script>
+/* ===============================
+   CrazyGames SDK – Ads Setup
+   =============================== */
+
+if (typeof crazygames !== "undefined") {
+  crazygames.load().then(() => {
+    // Banner ad on top
+    crazygames.ads.requestAd("banner", {
+      containerId: "cg-ad-top"
+    });
+  });
+}
+
+/* Rewarded Ad – Optional After Death */
+function showRewardedAd(onSuccess, onFail) {
+  if (typeof crazygames === "undefined") {
+    if (onFail) onFail();
+    return;
+  }
+
+  crazygames.ads.requestAd("rewarded")
+    .then(() => {
+      if (onSuccess) onSuccess(); // اللاعب تفرج
+    })
+    .catch(() => {
+      if (onFail) onFail(); // اللاعب رفض
+    });
+}
 </body>
+<!-- CrazyGames Top Banner Ad -->
+<div id="cg-ad-top" style="
+  width:100%;
+  min-height:90px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,0.15);
+  z-index:20;
+"></div>
 </html>
